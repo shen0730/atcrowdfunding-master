@@ -66,8 +66,43 @@
 
 <script>
     function dologin() {
-        $("#loginForm").submit();
-    }
+        var floginacct = $("#floginacct");
+        var fuserpswd = $("#fuserpswd");
+        var ftype = $("#ftype");
+
+        //对于表单数据而言不能用null进行判断，如果文本框什么都不输入，获取的值是""
+        if($.trim(floginacct.val()) == ""){
+            alert("用户账号不能为空！");
+            floginacct.val("");
+            floginacct.focus();
+            return false;
+        }
+
+        $.ajax({
+           type : "POST",
+            data : {
+                loginacct : floginacct.val(),
+                userpswd : fuserpswd.val(),
+                ftype : ftype.val(),
+            },
+            url : "${APP_PATH}/doLogin.do",
+            beforeSend : function(){
+                //一般做表单验证
+              return true;
+            },
+            success : function (result) {//{"success":true}  或    {"success":false,"message":"登录失败!"}
+                if (result.success){
+                   //跳转主页面
+                    window.location.href="${APP_PATH}/main.htm";
+                }else {
+                    alert("not ok");
+                }
+            },
+            error : function () {
+                alert("error");
+}
+});
+};
 
 </script>
 <%--<script>--%>

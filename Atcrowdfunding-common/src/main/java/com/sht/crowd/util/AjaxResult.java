@@ -2,10 +2,10 @@ package com.sht.crowd.util;
 
 public class AjaxResult {
 
-    private boolean success;
-    private String message;
+    private boolean success ;
+    private String message ;
 
-    public boolean getSuccess() {
+    public boolean isSuccess() {
         return success;
     }
 

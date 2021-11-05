@@ -1,4 +1,4 @@
-package com.xw.atcrowdfunding.util;
+package com.sht.crowd.util;
 
 import java.security.MessageDigest;
 
@@ -54,7 +54,7 @@ public class MD5Util {
 	}
 
 	public static void main(String args[]) {
-		String s = new String("123");
+		String s = new String("111");
 		System.out.println(digest(s));
 	}
 
