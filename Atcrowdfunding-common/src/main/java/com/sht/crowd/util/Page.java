@@ -53,7 +53,7 @@ public class Page {
         this.pagesize = pagesize;
     }
 
-    public void setDatas(List dateas) {
+    public void setDatas(List datas) {
         this.datas = datas;
     }
 

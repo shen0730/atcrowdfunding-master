@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Map;
 
-public interface UserMapper{
+public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);
@@ -22,13 +22,13 @@ public interface UserMapper{
 
 	User queryUserlogin(Map<String, Object> paramMap);
 
-    //List<User> queryList(@Param("startIndex") Integer startIndex, @Param("pagesize") Integer pagesize);
+    List<User> queryList(@Param("startIndex") Integer startIndex, @Param("pagesize") Integer pagesize);
 
-    //Integer queryCount();
+    Integer queryCount();
 
-    List<User> queryList(Map<String, Object> paramMap);
+    //List<User> queryList(Map<String, Object> paramMap);
 
-    Integer queryCount(Map<String, Object> paramMap);
+    //Integer queryCount(Map<String, Object> paramMap);
 
     //int deleteBatchUserByVo(Data data);
 
@@ -43,4 +43,5 @@ public interface UserMapper{
     int deleteUserRoleRelationship(@Param("userid") Integer userid, @Param("data") Data data);
 
     List<Permission> queryPermissionByUserid(Integer id);
+
 }

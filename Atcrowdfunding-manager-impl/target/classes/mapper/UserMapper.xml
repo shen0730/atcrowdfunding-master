@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sht.crowd.manager.dao.UserMapper">
 
+
+
 	<resultMap id="BaseResultMap" type="com.sht.crowd.bean.User">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="loginacct" property="loginacct" jdbcType="VARCHAR" />
@@ -14,7 +16,6 @@
 		delete from t_user
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-
 	<insert id="insert" parameterType="com.sht.crowd.bean.User" useGeneratedKeys="true" keyProperty="id">
 		insert into t_user (id,
 		loginacct, userpswd,
@@ -54,7 +55,7 @@
 		from t_user where loginacct=#{loginacct} and userpswd=#{userpswd}
 	</select>
 
-	<!--
+
 	<select id="queryList" resultMap="BaseResultMap">
 		select id, loginacct, userpswd,
 		username, email, createtime
@@ -65,26 +66,26 @@
 		select count(*)
 		from t_user
 	</select>
-	-->
-	
-	<select id="queryList" resultMap="BaseResultMap">
-		select id, loginacct, userpswd,
-		username, email, createtime
-		from t_user
-		<where>
-			<if test="queryText != null">loginacct like concat("%", #{queryText}, "%")</if>
-		</where>
-		order by createtime desc
-		limit #{startIndex}, #{pagesize}
-	</select>
 
-	<select id="queryCount" resultType="int">
-		select count(*)
-		from t_user
-		<where>
-			<if test="queryText != null">loginacct like concat("%", #{queryText}, "%")</if>
-		</where>
-	</select>
+	
+<!--	<select id="queryList" resultMap="BaseResultMap">-->
+<!--		select id, loginacct, userpswd,-->
+<!--		username, email, createtime-->
+<!--		from t_user-->
+<!--		<where>-->
+<!--			<if test="queryText != null">loginacct like concat("%", #{queryText}, "%")</if>-->
+<!--		</where>-->
+<!--		order by createtime desc-->
+<!--		limit #{startIndex}, #{pagesize}-->
+<!--	</select>-->
+
+<!--	<select id="queryCount" resultType="int">-->
+<!--		select count(*)-->
+<!--		from t_user-->
+<!--		<where>-->
+<!--			<if test="queryText != null">loginacct like concat("%", #{queryText}, "%")</if>-->
+<!--		</where>-->
+<!--	</select>-->
 
 	<!--<delete id="deleteBatchUserByVo">
 		delete from t_user where id in

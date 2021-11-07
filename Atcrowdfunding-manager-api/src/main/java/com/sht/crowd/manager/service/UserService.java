@@ -9,5 +9,7 @@ public interface UserService {
 
     User queryUserlogin(Map<String, Object> paramMap);
 
-    Page queryPage(Map map);
+    Page queryPage(Integer pageno, Integer pagesize);
+
+
 }
