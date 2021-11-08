@@ -181,8 +181,8 @@
                             </tbody>
                             <tfoot>
                             <tr >
-                                <td colspan="6" align="center">上一页 1 2 3 4 5 6 下一页
-<%--                                    <ul class="pagination">--%>
+                                <td colspan="6" align="center">
+                                    <ul class="pagination">
 <%--                                        <c:if test="${page.pageno==1 }">--%>
 <%--                                            <li class="disabled"><a href="#">上一页</a></li>--%>
 <%--                                        </c:if>--%>
@@ -205,7 +205,7 @@
 <%--                                            <li><a href="#" onclick="pageChange(${page.pageno+1})">下一页</a></li>--%>
 <%--                                        </c:if>--%>
 
-<%--                                    </ul>--%>
+                                    </ul>
                                 </td>
                             </tr>
 
@@ -279,7 +279,8 @@
         window.location.href = "edit.html";
     });
     function pageChange(pageno) {
-        window.location.href="${APP_PATH}/user/index.do?pageno="+pageno;
+        //window.location.href="${APP_PATH}/user/index.do?pageno="+pageno;
+        queryPageUser(pageno);
     }
 
     var loadingIndex = -1;
@@ -300,7 +301,42 @@
                 if(result.success){
                     var page = result.page;
                     var data = page.datas;
-                    alert("需要局部刷新:"+data);
+                    var content = '';
+                    $.each(data,function (i,n) {
+                        content+='<tr>';
+                        content+='<td>'+(i+1)+'</td>';
+                        content+='<td><input type="checkbox"></td>';
+                        content+='<td>'+n.loginacct+'</td>';
+                        content+='<td>'+n.username+'</td>';
+                        content+='<td>'+n.email+'</td>';
+                        content+='<td>';
+                        content+='<button type="b utton" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                        content+='<button type="button" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
+                        content+='<button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+                        content+='</td>';
+                        content+='</tr>';
+
+                    });
+                    $("tbody").html(content);
+                    var contentBar = '';
+                    if(page.pageno==1){
+                        contentBar+='<li class="disabled"><a href="#">上一页</a></li>';
+                    }else{
+                        contentBar+='<li><a href="#" onclick="pageChange('+(page.pageno-1)+')">上一页</a></li>';
+                    }
+                    for(var i = 1;i<=page.totalno;i++){
+                        contentBar+='<li ';
+                                if(page.pageno==i){
+                                    contentBar+='class="active"';
+                                }
+                            contentBar+='><a href="#" onclick="pageChange('+i+')">'+i+'</a></li>';
+                    }
+                    if(page.pageno==page.totalno){
+                        contentBar+='<li class="disabled"><a href="#">下一页</a></li>';
+                    }else{
+                        contentBar+='<li><a href="#" onclick="pageChange('+(page.pageno+1)+')">下一页</a></li>';
+                    }
+                    $(".pagination").html(contentBar);
                 }else{
                     layer.msg(result.message,{time: 1000,icon:5,shift:6});
                 }
