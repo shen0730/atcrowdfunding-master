@@ -142,10 +142,10 @@
                         <div class="form-group has-feedback">
                             <div class="input-group">
                                 <div class="input-group-addon">查询条件</div>
-                                <input class="form-control has-success" type="text" placeholder="请输入查询条件">
+                                <input id="queryText" class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
                         </div>
-                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                        <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
                     <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
                     <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='add.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
@@ -283,14 +283,17 @@
         queryPageUser(pageno);
     }
 
+    var jsonObj = {
+        "pageno" : 1,
+        "pagesize" : 10
+    };
+
     var loadingIndex = -1;
     function queryPageUser(pageno) {
+        jsonObj.pageno = pageno;
         $.ajax({
             type:"POST",
-            data:{
-                "pageno" : pageno,
-                "pagesize" : 10
-            },
+            data:jsonObj,
             url:"${APP_PATH}/user/index.do",
             beforeSend : function(){
                 loadingIndex = layer.load(2, {time: 10*1000});
@@ -345,8 +348,13 @@
                 layer.msg("加载数据失败！",{time:1000,icon: 5,shift: 6});
             }
         });
-
     }
+
+    $("#queryBtn").click(function () {
+        var queryText = $("#queryText").val();
+        jsonObj.queryText = queryText;
+        queryPageUser(1);
+    });
 
 </script>
 </body>

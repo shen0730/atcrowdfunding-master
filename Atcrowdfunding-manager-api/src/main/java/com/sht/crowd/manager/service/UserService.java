@@ -9,7 +9,9 @@ public interface UserService {
 
     User queryUserlogin(Map<String, Object> paramMap);
 
-    Page queryPage(Integer pageno, Integer pagesize);
+    //@Deprecated
+    //Page queryPage(Integer pageno, Integer pagesize);
 
 
+    Page queryPage(Map<String, Object> paramMap);
 }

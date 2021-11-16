@@ -27,15 +27,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page queryPage(Integer pageno, Integer pagesize) {
-        Page page = new Page(pageno,pagesize);
+    public Page queryPage(Map<String, Object> paramMap) {
+        Page page = new Page((Integer) paramMap.get("pageno"),(Integer) paramMap.get("pagesize"));
         Integer startIndex = page.getStartIndex();
-        List<User> datas = userMapper.queryList(startIndex,pagesize);
+        paramMap.put("startIndex",startIndex);
+        List<User> datas = userMapper.queryList(paramMap);
         page.setDatas(datas);
-        Integer totalsize = userMapper.queryCount();
+        Integer totalsize = userMapper.queryCount(paramMap);
         page.setTotalsize(totalsize);
         return page;
     }
+
+//    @Override
+//    public Page queryPage(Integer pageno, Integer pagesize) {
+//        Page page = new Page(pageno,pagesize);
+//        Integer startIndex = page.getStartIndex();
+//        List<User> datas = userMapper.queryList(startIndex,pagesize);
+//        page.setDatas(datas);
+//        Integer totalsize = userMapper.queryCount();
+//        page.setTotalsize(totalsize);
+//        return page;
+//    }
 
 
 
