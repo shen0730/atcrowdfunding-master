@@ -143,4 +143,8 @@
 		AND t_user.id = #{userid} order by t_permission.id
 	</select>
 
+	<select id="selectLoginacct" resultMap="BaseResultMap">
+		select loginacct from t_user where loginacct=#{loginacct}
+	</select>
+
 </mapper>

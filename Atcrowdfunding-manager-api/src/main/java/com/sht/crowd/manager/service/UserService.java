@@ -14,4 +14,8 @@ public interface UserService {
 
 
     Page queryPage(Map<String, Object> paramMap);
+
+    int save(User user);
+
+    boolean selectLoginacct(String loginacct);
 }

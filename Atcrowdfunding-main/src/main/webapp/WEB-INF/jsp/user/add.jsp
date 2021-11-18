@@ -54,15 +54,18 @@
                     <form id="addForm">
                         <div class="form-group">
                             <label for="floginacct">登陆账号</label>
-                            <input type="text" class="form-control" id="floginacct" placeholder="请输入登陆账号">
+                            <input type="text" class="form-control" name="floginacct" id="floginacct" onblur="sloginacct()" placeholder="请输入登陆账号">
+                            <span class="help-block" id="span"></span>
                         </div>
                         <div class="form-group">
                             <label for="fusername">用户名称</label>
-                            <input type="text" class="form-control" id="fusername" placeholder="请输入用户名称">
+                            <input type="text" class="form-control" id="fusername" onblur="susername()" placeholder="请输入用户名称">
+                            <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label for="femail">邮箱地址</label>
-                            <input type="email" class="form-control" id="femail" placeholder="请输入邮箱地址">
+                            <input type="email" class="form-control" id="femail" onblur="check()" placeholder="请输入邮箱地址">
+                            <span class="help-block"></span>
                             <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
                         </div>
                         <button id="addBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 新增</button>
@@ -102,7 +105,6 @@
 <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script src="${APP_PATH}/script/docs.min.js"></script>
-c
 <script type="text/javascript">
     $(function () {
         $(".list-group-item").click(function(){
@@ -117,37 +119,131 @@ c
         });
     });
 
+
+    function check(){
+        //1、拿到要校验的数据,使用正则表达式
+        var floginacct = $("#floginacct").val();
+        var rloginacct = /(^[a-zA-Z0-9_-]{2,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
+        if(!rloginacct.test(floginacct)){
+            //alert("用户名可以是2-5位中文或者6-16位英文和数字的组合");
+            show_validate_msg("#floginacct", "error", "用户名可以是2-5位中文或者2-16位英文和数字的组合");
+            return false;
+        }else{
+            show_validate_msg("#floginacct", "success", "");
+            /* $("#empName_add_input").parent().addClass("has-success");
+            $("#empName_add_input").next("span").text(""); */
+        }
+
+        //1、拿到要校验的数据,使用正则表达式
+        var fusername = $("#fusername").val();
+        var rusername = /(^[a-zA-Z0-9_-]{2,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
+        if(!rusername.test(fusername)){
+            //alert("用户名可以是2-5位中文或者6-16位英文和数字的组合");
+            show_validate_msg("#fusername", "error", "昵称可以是2-5位中文或者2-16位英文和数字的组合");
+            return false;
+        }else{
+            show_validate_msg("#fusername", "success", "");
+            /* $("#empName_add_input").parent().addClass("has-success");
+            $("#empName_add_input").next("span").text(""); */
+        }
+
+         　　var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+         　　var obj = document.getElementById("femail"); //要验证的对象
+         　　if(obj.value === ""){ //输入不能为空
+               show_validate_msg("#femail", "error", "邮箱不能为空！");
+             　　　　//alert("输入不能为空!");
+             　　　　return false;
+             　　}else if(!reg.test(obj.value)){ //正则验证不通过，格式不对
+               show_validate_msg("#femail", "success", "邮箱格式错误！");
+             　　　　return false;
+             　　}else{
+             　　　　//alert("通过！");
+             　　　　return true;
+             　　}
+         }
+    //显示校验结果的提示信息
+    function show_validate_msg(ele, status, msg){
+        //清除当前元素的校验状态
+        $(ele).parent().removeClass("has-success has-error");
+        $(ele).next("span").text(msg);
+        if("success" == status){
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+        }else if("error" == status){
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
+    }
+
+
+
     $("#addBtn").click(function () {
         var floginacct = $("#floginacct");
         var fusername = $("#fusername");
         var femail = $("#femail");
+
+        if(!check()){
+            return false;
+        }
+
         $.ajax({
-           type : "POST",
-           data : {
-               "loginacct" : floginacct.val(),
-               "username" : fusername.val(),
-               "email" : femail.val()
+            type : "POST",
+            data : {
+                "loginacct" : floginacct.val(),
+                "username" : fusername.val(),
+                "email" : femail.val()
             },
             url : "${APP_PATH}/user/doAdd.do",
-            beforeSend : function() {
+            beforeSend : function () {
                 return true;
             },
             success : function (result) {
-                if (result.success){
-                    window.location.href="${APP_PATH}/user/index.htm";
+                if(result.success){
+                    window.location.href="${APP_PATH}/user/toIndex.htm"
                 }else {
                     layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
                 }
             },
             error : function () {
-                layer.msg("保存用户失败！", {time: 1000, icon: 5, shift: 6});
+                layer.msg("保存用户失败！",{time:1000,icon:5,shift:6});
             }
         });
     });
 
-    $("#resetBtn").click(function () {
-        $("#addForm")[0].reset();
-    });
+
+
+
+    <%--$("#addBtn").click(function () {--%>
+    <%--    var floginacct = $("#floginacct");--%>
+    <%--    var fusername = $("#fusername");--%>
+    <%--    var femail = $("#femail");--%>
+    <%--    $.ajax({--%>
+    <%--       type : "POST",--%>
+    <%--       data : {--%>
+    <%--           "loginacct" : floginacct.val(),--%>
+    <%--           "username" : fusername.val(),--%>
+    <%--           "email" : femail.val()--%>
+    <%--        },--%>
+    <%--        url : "${APP_PATH}/user/doAdd.do",--%>
+    <%--        beforeSend : function() {--%>
+    <%--            return true;--%>
+    <%--        },--%>
+    <%--        success : function (result) {--%>
+    <%--            if (result.success){--%>
+    <%--                window.location.href="${APP_PATH}/user/toIndex.htm";--%>
+    <%--            }else {--%>
+    <%--                layer.msg(result.message, {time: 1000, icon: 5, shift: 6});--%>
+    <%--            }--%>
+    <%--        },--%>
+    <%--        error : function () {--%>
+    <%--            layer.msg("保存用户失败！", {time: 1000, icon: 5, shift: 6});--%>
+    <%--        }--%>
+    <%--    });--%>
+    <%--});--%>
+
+    // $("#resetBtn").click(function () {
+    //     $("#addForm")[0].reset();
+    // });
 </script>
 </body>
 </html>

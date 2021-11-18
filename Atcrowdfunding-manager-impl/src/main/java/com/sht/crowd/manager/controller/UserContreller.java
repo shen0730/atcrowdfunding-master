@@ -1,5 +1,6 @@
 package com.sht.crowd.manager.controller;
 
+import com.sht.crowd.bean.User;
 import com.sht.crowd.manager.service.UserService;
 import com.sht.crowd.util.AjaxResult;
 import com.sht.crowd.util.Page;
@@ -26,6 +27,32 @@ public class UserContreller {
 
         return "user/index";
     }
+
+    @RequestMapping("toAdd")
+    public String toAdd(){
+
+        return "user/add";
+    }
+
+
+
+    //新增用户
+    @ResponseBody
+    @RequestMapping("/doAdd")
+    public Object doAdd(User user){
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = userService.save(user);
+            result.setSuccess(count == 1);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            e.printStackTrace();
+            result.setMessage("保存数据失败!");
+        }
+
+        return result;
+    }
+
 
     //条件查询
     @ResponseBody

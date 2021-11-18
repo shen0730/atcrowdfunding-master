@@ -13,6 +13,8 @@ public class User {
 
     private String createtime;
 
+
+
     public Integer getId() {
         return id;
     }
@@ -60,4 +62,6 @@ public class User {
     public void setCreatetime(String createtime) {
         this.createtime = createtime == null ? null : createtime.trim();
     }
+
+
 }
