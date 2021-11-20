@@ -26,4 +26,6 @@ public interface UserService {
     int updateUser(User user);
 
     int deleteUser(Integer id);
+
+    int deleteBatchUser(Integer[] ids);
 }

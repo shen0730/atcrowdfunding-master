@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: xw
-  Date: 2019/12/23
-  Time: 13:53
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -68,68 +61,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <div class="tree">
-                <ul style="padding-left:0px;" class="list-group">
-                    <li class="list-group-item tree-closed" >
-                        <a href="main.html"><i class="glyphicon glyphicon-dashboard"></i> 控制面板</a>
-                    </li>
-                    <li class="list-group-item">
-                        <span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge" style="float:right">3</span></span>
-                        <ul style="margin-top:10px;">
-                            <li style="height:30px;">
-                                <a href="${APP_PATH}/user/toIndex.htm" style="color:red;"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="role.html"><i class="glyphicon glyphicon-king"></i> 角色维护</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="permission.html"><i class="glyphicon glyphicon-lock"></i> 许可维护</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="list-group-item tree-closed">
-                        <span><i class="glyphicon glyphicon-ok"></i> 业务审核 <span class="badge" style="float:right">3</span></span>
-                        <ul style="margin-top:10px;display:none;">
-                            <li style="height:30px;">
-                                <a href="auth_cert.html"><i class="glyphicon glyphicon-check"></i> 实名认证审核</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="auth_adv.html"><i class="glyphicon glyphicon-check"></i> 广告审核</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="auth_project.html"><i class="glyphicon glyphicon-check"></i> 项目审核</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="list-group-item tree-closed">
-                        <span><i class="glyphicon glyphicon-th-large"></i> 业务管理 <span class="badge" style="float:right">7</span></span>
-                        <ul style="margin-top:10px;display:none;">
-                            <li style="height:30px;">
-                                <a href="cert.html"><i class="glyphicon glyphicon-picture"></i> 资质维护</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="type.html"><i class="glyphicon glyphicon-equalizer"></i> 分类管理</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="process.html"><i class="glyphicon glyphicon-random"></i> 流程管理</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="advertisement.html"><i class="glyphicon glyphicon-hdd"></i> 广告管理</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="message.html"><i class="glyphicon glyphicon-comment"></i> 消息模板</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="project_type.html"><i class="glyphicon glyphicon-list"></i> 项目分类</a>
-                            </li>
-                            <li style="height:30px;">
-                                <a href="tag.html"><i class="glyphicon glyphicon-tags"></i> 项目标签</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="list-group-item tree-closed" >
-                        <a href="param.html"><i class="glyphicon glyphicon-list-alt"></i> 参数管理</a>
-                    </li>
-                </ul>
+                <jsp:include page="/WEB-INF/jsp/common/menu.jsp"></jsp:include>
             </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -147,7 +79,7 @@
                         </div>
                         <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
-                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+                    <button type="button" class="btn btn-danger" id="deleteBatchBtn" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
                     <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/user/toAdd.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
                     <br>
                     <hr style="clear:both;">
@@ -156,7 +88,7 @@
                             <thead>
                             <tr >
                                 <th width="30">#</th>
-                                <th width="30"><input type="checkbox"></th>
+                                <th width="30"><input id="allCheckbox" type="checkbox"></th>
                                 <th>账号</th>
                                 <th>名称</th>
                                 <th>邮箱地址</th>
@@ -259,6 +191,7 @@
     <%--    });--%>
     <%--}--%>
 
+    //分页查询所有用户
     $(function () {
         $(".list-group-item").click(function(){
             if ( $(this).find("ul") ) {
@@ -294,7 +227,7 @@
         $.ajax({
             type:"POST",
             data:jsonObj,
-            url:"${APP_PATH}/user/index.do",
+            url:"${APP_PATH}/user/doIndex.do",
             beforeSend : function(){
                 loadingIndex = layer.load(2, {time: 10*1000});
                 return true;
@@ -308,7 +241,7 @@
                     $.each(data,function (i,n) {
                         content+='<tr>';
                         content+='<td>'+(i+1)+'</td>';
-                        content+='<td><input type="checkbox"></td>';
+                        content+='<td><input class="check_item" type="checkbox" id="'+n.id+'"></td>';
                         content+='<td>'+n.loginacct+'</td>';
                         content+='<td>'+n.username+'</td>';
                         content+='<td>'+n.email+'</td>';
@@ -350,12 +283,14 @@
         });
     }
 
+    //模糊查询
     $("#queryBtn").click(function () {
         var queryText = $("#queryText").val();
         jsonObj.queryText = queryText;
         queryPageUser(1);
     });
 
+    //删除
     function deleteUser(id, loginacct) {
 
         layer.confirm('确认要删除[' + loginacct + ']用户吗?', {icon: 3, title:'提示'}, function(cihdex){
@@ -371,7 +306,7 @@
                 },
                 success : function (result) {
                     if (result.success){
-                        window.location.href="${APP_PATH}/user/toIndex.htm";
+                        window.location.href="${APP_PATH}/user/index.htm";
                     }else {
                         layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
                     }
@@ -384,6 +319,73 @@
             layer.close(cihdex);
         });
     }
+
+    // //完成全选/全不选功能
+    // $("#allCheckbox").click(function(){
+    //     //attr获取checked是undefined;
+    //     //我们这些dom原生的属性,attr获取自定义属性的值
+    //     //prop修改和读取dom原生属性的值
+    //     $(".check_item").prop("checked", $(this).prop("checked"));
+    // });
+
+    //判断当前选择中的元素是否10个
+    //check_item
+    $(document).on("click", ".check_item", function(){
+        //判断当前选择中的元素是否10个
+        var flag = $(".check_item:checked").length == $(".check_item").length;
+        $("#allCheckbox").prop("checked", flag);
+    });
+
+    $("#allCheckbox").click(function () {
+        var checkedStatus = this.checked;
+        //alert(checkedStatus);
+        //$("tbody tr td input[type='checkbox']").attr("checked",checkedStatus);
+        //alert(checkboxAll.length);
+        var tbodyCheckbox = $("tbody tr td input[type='checkbox']");
+        $.each(tbodyCheckbox,function (i,n) {
+            n.checked = checkedStatus;
+        });
+    });
+
+    //批量删除
+    $("#deleteBatchBtn").click(function () {
+        var selectCheckbox = $("tbody tr td input:checked");
+        if(selectCheckbox.length == 0){
+            layer.msg("请选择要删除的用户！", {time:1000,icon:5,shift:6});
+            return false;
+        }
+        var idStr ="";
+        $.each(selectCheckbox,function (i,n) {
+            if(i!=0){
+                idStr += "&";
+            }
+            idStr += "id="+ n.id;
+        });
+        alert(idStr);
+        layer.confirm('确认要删除这些用户吗?', {icon: 3, title:'提示'}, function(cihdex){
+            layer.close(cihdex);
+            $.ajax({
+                type : "POST",
+                data : idStr,
+                url : "${APP_PATH}/user/doDeleteBatch.do",
+                beforeSend : function() {
+                    return true;
+                },
+                success : function (result) {
+                    if (result.success){
+                        window.location.href="${APP_PATH}/user/index.htm";
+                    }else {
+                        layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
+                    }
+                },
+                error : function () {
+                    layer.msg("删除用户失败！", {time: 1000, icon: 5, shift: 6});
+                }
+            });
+        }, function (cihdex) {
+            layer.close(cihdex);
+        });
+    });
 
 </script>
 </body>

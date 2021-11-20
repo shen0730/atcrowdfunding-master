@@ -93,6 +93,19 @@ public class UserServiceImpl<Criteria> implements UserService {
         return userMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public int deleteBatchUser(Integer[] ids) {
+        int totalCount = 0;
+        for(Integer id :ids){
+            int count = userMapper.deleteByPrimaryKey(id);
+            totalCount += count;
+        }
+        if(totalCount != ids.length){
+            throw new RuntimeException("批量删除失败！");
+        }
+        return totalCount;
+    }
+
 
 //    @Override
 //    public Page queryPage(Integer pageno, Integer pagesize) {

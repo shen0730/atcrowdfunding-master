@@ -21,7 +21,7 @@ public class UserContreller {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("toIndex")
+    @RequestMapping("index")
     public String toIndex(){
 
         return "user/index";
@@ -96,7 +96,7 @@ public class UserContreller {
 
     //条件查询
     @ResponseBody
-    @RequestMapping("/index")
+    @RequestMapping("/doIndex")
     public Object index(@RequestParam(value = "pageno", required = false, defaultValue = "1") Integer pageno,
                         @RequestParam(value = "pagesize", required = false, defaultValue = "10") Integer pagesize,
                         String queryText){
@@ -132,6 +132,23 @@ public class UserContreller {
         try {
             int count = userService.deleteUser(id);
             result.setSuccess(count == 1);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            e.printStackTrace();
+            result.setMessage("删除数据失败!");
+        }
+
+        return result;
+    }
+
+    //批量删除用户
+    @ResponseBody
+    @RequestMapping("/doDeleteBatch")
+    public Object doDeleteBatch(Integer[] id){
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = userService.deleteBatchUser(id);
+            result.setSuccess(count == id.length);
         } catch (Exception e) {
             result.setSuccess(false);
             e.printStackTrace();
