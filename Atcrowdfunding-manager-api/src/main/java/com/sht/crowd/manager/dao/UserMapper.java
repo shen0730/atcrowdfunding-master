@@ -45,5 +45,5 @@ public interface UserMapper {
 
     List<Permission> queryPermissionByUserid(Integer id);
 
-    User selectLoginacct();
+    User selectLoginacct(String loginacct);
 }

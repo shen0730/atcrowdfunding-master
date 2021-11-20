@@ -55,16 +55,30 @@ public class UserServiceImpl<Criteria> implements UserService {
         return userMapper.insert(user);
     }
 
-    //验证用户名是否可用
     @Override
-    public boolean selectLoginacct(String loginacct) {
-        User user = userMapper.selectLoginacct();
-        if(user != null){
-            return true;
-        }else{
-            return false;
-        }
+    public User selectUserByNickName(String loginacct) throws Exception {
+        return userMapper.selectLoginacct(loginacct);
     }
+
+
+    //判断账号是否存在
+    @Override
+    public boolean selectLoginacct(String loginacct){
+//        //查询账号
+//        User user = userMapper.selectLoginacct(loginacct);
+//        //是否存在的标记
+//        //默认是false，表示默认是不存在的
+//        //user 对象不为空并且 loginacct 不是空串的情况下才认为是存在的
+//        boolean fiag = false;
+//        if(user != null && user.getLoginacct() != null && !user.getLoginacct().isEmpty()){
+//            fiag = true;
+//        }
+//        return fiag;
+        User user = userMapper.selectLoginacct(loginacct);
+        return user == null;
+    }
+
+
 
 
 //    @Override

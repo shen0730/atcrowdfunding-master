@@ -17,5 +17,8 @@ public interface UserService {
 
     int save(User user);
 
+    User selectUserByNickName(String loginacct) throws Exception;
+
     boolean selectLoginacct(String loginacct);
+
 }

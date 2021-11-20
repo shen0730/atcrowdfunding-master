@@ -3,13 +3,12 @@ package com.sht.crowd.manager.controller;
 import com.sht.crowd.bean.User;
 import com.sht.crowd.manager.service.UserService;
 import com.sht.crowd.util.AjaxResult;
+import com.sht.crowd.util.Msg;
 import com.sht.crowd.util.Page;
 import com.sht.crowd.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +33,23 @@ public class UserContreller {
         return "user/add";
     }
 
+    //检查用户名是否可用
+    @ResponseBody
+    @RequestMapping("/isExistedNickName")
+    public Msg checkUsername(@RequestParam("loginacct") String loginacct){
+        String regx = "(^[a-zA-Z0-9_-]{2,16}$)|(^[\u2E80-\u9FFF]{2,5})";
+        boolean b = userService.selectLoginacct(loginacct);
+        if(!loginacct.matches(regx)){
+            return Msg.fail().add("va_msg", "用户必须是2-16位数字和字母的组合或者2-5位中文");
+        }
+
+        //数据库用户名重复校验
+        if(b){
+            return Msg.success();
+        }else {
+            return Msg.fail().add("va_msg", "用户名被占用！");
+        }
+    }
 
 
     //新增用户

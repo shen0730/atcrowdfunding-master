@@ -54,12 +54,12 @@
                     <form id="addForm">
                         <div class="form-group">
                             <label for="floginacct">登陆账号</label>
-                            <input type="text" class="form-control" name="floginacct" id="floginacct" onblur="sloginacct()" placeholder="请输入登陆账号">
+                            <input type="text" class="form-control" name="loginacct" id="floginacct" onblur="check()" placeholder="请输入登陆账号">
                             <span class="help-block" id="span"></span>
                         </div>
                         <div class="form-group">
                             <label for="fusername">用户名称</label>
-                            <input type="text" class="form-control" id="fusername" onblur="susername()" placeholder="请输入用户名称">
+                            <input type="text" class="form-control" id="fusername" onblur="check()" placeholder="请输入用户名称">
                             <span class="help-block"></span>
                         </div>
                         <div class="form-group">
@@ -120,6 +120,7 @@
     });
 
 
+
     function check(){
         //1、拿到要校验的数据,使用正则表达式
         var floginacct = $("#floginacct").val();
@@ -175,7 +176,44 @@
         }
     }
 
+    //校验用户名是否可用
+    $("#floginacct").change(
+        function() {
+            //发送ajax请求校验用户名是否可用
+            var loginacct = this.value;
+            $.ajax({
+                url : "${APP_PATH}/user/isExistedNickName.do",
+                data : "loginacct=" + loginacct,
+                type : "POST",
+                success : function(result) {
+                    if (result.code == 100) {
+                        show_validate_msg("#floginacct", "success", "用户名可用！");
+                        $("#addBtn").attr("ajax-va", "success");
+                    } else {
+                        show_validate_msg("#floginacct", "账户已经存在！");
+                        $("#addBtn").attr("ajax-va", "error");
+                    }
+                }
+            });
+        });
 
+    <%--$(document).ready(function () {--%>
+
+    <%--    $("#floginacct").focusout(function () {--%>
+    <%--        $.ajax({--%>
+    <%--            type : "POST",--%>
+    <%--            url : "${APP_PATH}/user/isExistedNickName.do",--%>
+    <%--            data : "loginacct=" + $("#floginacct").val(),--%>
+    <%--            success : function (result) {--%>
+    <%--                if(result == true){--%>
+    <%--                    show_validate_msg("#loginacct","success","账号存在！");--%>
+    <%--                }else{--%>
+    <%--                    show_validate_msg("#loginacct","error","可以使用！");--%>
+    <%--                }--%>
+    <%--            }--%>
+    <%--        });--%>
+    <%--    });--%>
+    <%--});--%>
 
     $("#addBtn").click(function () {
         var floginacct = $("#floginacct");
@@ -184,6 +222,13 @@
 
         if(!check()){
             return false;
+
+        }
+        //判断之前的ajax用户名校验是否成功
+        if($(this).attr("ajax-va") == "error"){
+            return false;
+        }else{
+            layer("账号已经存在，请重新输入！");
         }
 
         $.ajax({
