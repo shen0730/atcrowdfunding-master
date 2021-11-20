@@ -21,4 +21,9 @@ public interface UserService {
 
     boolean selectLoginacct(String loginacct);
 
+    User getById(Integer id);
+
+    int updateUser(User user);
+
+    int deleteUser(Integer id);
 }

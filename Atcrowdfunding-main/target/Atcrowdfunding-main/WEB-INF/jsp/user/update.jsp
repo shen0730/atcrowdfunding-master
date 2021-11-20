@@ -54,7 +54,8 @@
                     <form id="updateForm">
                         <div class="form-group">
                             <label for="floginacct">登陆账号</label>
-                            <input type="text" class="form-control" id="floginacct" value="${user.loginacct}">
+                            <input type="text" class="form-control" name="floginacct" id="floginacct" value="${user.loginacct}">
+                            <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label for="fusername">用户名称</label>
@@ -62,8 +63,10 @@
                         </div>
                         <div class="form-group">
                             <label for="femail">邮箱地址</label>
-                            <input type="email" class="form-control" id="femail" value="${user.email}">
+                            <input type="email" class="form-control" onclick="check()" id="femail" value="${user.email}">
+                            <span class="help-block"></span>
                             <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
+
                         </div>
                         <button id="updateBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i> 修改</button>
                         <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
@@ -121,31 +124,94 @@
         $("#updateForm")[0].reset();
     });
 
+    //显示校验结果的提示信息
+    function show_validate_msg(ele, status, msg){
+        //清除当前元素的校验状态
+        $(ele).parent().removeClass("has-success has-error");
+        $(ele).next("span").text(msg);
+        if("success" == status){
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+        }else if("error" == status){
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
+    }
+
+    function check(){
+        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+        var obj = document.getElementById("femail"); //要验证的对象
+        if(obj.value === ""){ //输入不能为空
+            show_validate_msg("#femail", "error", "邮箱不能为空！");
+            //alert("输入不能为空!");
+            return false;
+        }else if(!reg.test(obj.value)){ //正则验证不通过，格式不对
+            show_validate_msg("#femail", "success", "邮箱格式错误！");
+            return false;
+        }else{
+            //alert("通过！");
+            return true;
+        }
+    }
+
+    //校验用户名是否可用
+    $("#floginacct").change(
+        function() {
+            //发送ajax请求校验用户名是否可用
+            var loginacct = this.value;
+            $.ajax({
+                url : "${APP_PATH}/user/isExistedNickName.do",
+                data : "loginacct=" + loginacct,
+                type : "POST",
+                success : function(result) {
+                    if (result.code == 100) {
+                        show_validate_msg("#floginacct", "success", "用户名可用！");
+                        $("#updateBtn").attr("ajax-va", "success");
+                    } else {
+                        show_validate_msg("#floginacct", "账户已经存在！");
+                        $("#updateBtn").attr("ajax-va", "error");
+                    }
+                }
+            });
+        });
+
     $("#updateBtn").click(function () {
         var floginacct = $("#floginacct");
         var fusername = $("#fusername");
         var femail = $("#femail");
+
+        if(!check()){
+            return false;
+
+        }
+        //判断之前的ajax用户名校验是否成功
+        if($(this).attr("ajax-va") == "error"){
+            return false;
+        }else{
+            show_validate_msg("#floginacct", "账户已经存在！");
+        }
+
         $.ajax({
             type : "POST",
             data : {
                 "loginacct" : floginacct.val(),
                 "username" : fusername.val(),
                 "email" : femail.val(),
-                "id" : ${user.id}
+                "id" : "${user.id}"
             },
             url : "${APP_PATH}/user/doUpdate.do",
-            beforeSend : function() {
+            beforeSend : function () {
                 return true;
             },
             success : function (result) {
-                if (result.success){
-                    window.location.href="${APP_PATH}/user/toIndex.htm";
+                if(result.success){
+                    window.location.href="${APP_PATH}/user/toIndex.htm"
                 }else {
-                    layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
+                    layer.msg("修改用户失败！", {time: 1000, icon: 5, shift: 6});
                 }
             },
             error : function () {
-                layer.msg("修改用户失败！", {time: 1000, icon: 5, shift: 6});
+                layer.msg("修改失败！",{time:1000,icon:5,shift:6});
             }
         });
     });

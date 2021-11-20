@@ -78,7 +78,20 @@ public class UserServiceImpl<Criteria> implements UserService {
         return user == null;
     }
 
+    @Override
+    public User getById(Integer id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
 
+    @Override
+    public int updateUser(User user) {
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public int deleteUser(Integer id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
 
 
 //    @Override

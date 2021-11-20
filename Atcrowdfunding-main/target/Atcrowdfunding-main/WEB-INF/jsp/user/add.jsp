@@ -255,7 +255,9 @@
         });
     });
 
-
+    $("#resetBtn").click(function () {
+        $("#addForm")[0].reset();
+    });
 
 
     <%--$("#addBtn").click(function () {--%>

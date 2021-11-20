@@ -33,6 +33,30 @@ public class UserContreller {
         return "user/add";
     }
 
+    @RequestMapping("toUpdate")
+    public String toUpdate(Integer id,Map map){
+        User user = userService.getById(id);
+        map.put("user",user);
+        return "user/update";
+    }
+
+    //修改用户
+    @ResponseBody
+    @RequestMapping("/doUpdate")
+    public Object doUpdate(User user){
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = userService.updateUser(user);
+            result.setSuccess(count == 1);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            e.printStackTrace();
+            result.setMessage("修改数据失败!");
+        }
+
+        return result;
+    }
+
     //检查用户名是否可用
     @ResponseBody
     @RequestMapping("/isExistedNickName")
@@ -98,6 +122,23 @@ public class UserContreller {
         }
 
         return result; //将对象序列化为JSON字符串,以流的形式返回.
+    }
+
+    //删除用户
+    @ResponseBody
+    @RequestMapping("/doDelete")
+    public Object doDelete(Integer id){
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = userService.deleteUser(id);
+            result.setSuccess(count == 1);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            e.printStackTrace();
+            result.setMessage("删除数据失败!");
+        }
+
+        return result;
     }
 
 
