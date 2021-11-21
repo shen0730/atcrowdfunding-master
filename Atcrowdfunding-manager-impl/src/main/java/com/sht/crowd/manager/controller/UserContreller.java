@@ -1,17 +1,20 @@
 package com.sht.crowd.manager.controller;
 
+import com.sht.crowd.bean.Role;
 import com.sht.crowd.bean.User;
 import com.sht.crowd.manager.service.UserService;
 import com.sht.crowd.util.AjaxResult;
 import com.sht.crowd.util.Msg;
 import com.sht.crowd.util.Page;
 import com.sht.crowd.util.StringUtil;
+import com.sht.crowd.vo.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -31,6 +34,27 @@ public class UserContreller {
     public String toAdd(){
 
         return "user/add";
+    }
+
+    //显示分配页面数据
+    @RequestMapping("assignRole")
+    public String assignRole(Integer id,Map map){
+        List<Role> allListRole = userService.queryAllRole();
+        List<Integer> roleIds = userService.queryRoleByUserid(id);
+        List<Role> leftRoleList = new ArrayList<Role>();//未分配角色
+        List<Role> rightRoleList = new ArrayList<Role>();//已分配角色
+
+        for(Role role : allListRole){
+            if(roleIds.contains(role.getId())){
+                rightRoleList.add(role);
+            }else{
+                leftRoleList.add(role);
+            }
+
+        }
+        map.put("leftRoleList",leftRoleList);
+        map.put("rightRoleList",rightRoleList);
+        return "user/assignRole";
     }
 
     @RequestMapping("toUpdate")
@@ -158,6 +182,41 @@ public class UserContreller {
         return result;
     }
 
+    //分配角色
+    @ResponseBody
+    @RequestMapping("/doAssignRole")
+    public Object doAssignRole(Integer userid, Data data){
+        AjaxResult result = new AjaxResult();
+        try {
+            userService.saveUserRoleRelationship(userid, data);
+
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            e.printStackTrace();
+            result.setMessage("分配角色数据失败!");
+        }
+
+        return result; //将对象序列化为JSON字符串,以流的形式返回.
+    }
+
+    //取消角色
+    @ResponseBody
+    @RequestMapping("/doUnAssignRole")
+    public Object doUnAssignRole(Integer userid, Data data){
+        AjaxResult result = new AjaxResult();
+        try {
+            userService.deleteUserRoleRelationship(userid, data);
+
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            e.printStackTrace();
+            result.setMessage("取消分配角色数据失败!");
+        }
+
+        return result; //将对象序列化为JSON字符串,以流的形式返回.
+    }
 
     //异步请求
 //    @ResponseBody

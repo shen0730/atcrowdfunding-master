@@ -1,5 +1,6 @@
 package com.sht.crowd.manager.service.impl;
 
+import com.sht.crowd.bean.Role;
 import com.sht.crowd.bean.User;
 import com.sht.crowd.exception.LoginFailException;
 import com.sht.crowd.manager.dao.UserMapper;
@@ -7,6 +8,7 @@ import com.sht.crowd.manager.service.UserService;
 import com.sht.crowd.util.Const;
 import com.sht.crowd.util.MD5Util;
 import com.sht.crowd.util.Page;
+import com.sht.crowd.vo.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,18 +108,27 @@ public class UserServiceImpl<Criteria> implements UserService {
         return totalCount;
     }
 
+    @Override
+    public List<Role> queryAllRole() {
+        return userMapper.queryAllRole();
+    }
 
-//    @Override
-//    public Page queryPage(Integer pageno, Integer pagesize) {
-//        Page page = new Page(pageno,pagesize);
-//        Integer startIndex = page.getStartIndex();
-//        List<User> datas = userMapper.queryList(startIndex,pagesize);
-//        page.setDatas(datas);
-//        Integer totalsize = userMapper.queryCount();
-//        page.setTotalsize(totalsize);
-//        return page;
-//    }
+    @Override
+    public List<Integer> queryRoleByUserid(Integer id) {
+        return userMapper.queryRoleByUserid(id);
+    }
 
+    //分配角色
+    @Override
+    public int saveUserRoleRelationship(Integer userid, Data data) {
+        return userMapper.saveUserRoleRelationship(userid, data);
+    }
+
+    //取消角色
+    @Override
+    public int deleteUserRoleRelationship(Integer userid, Data data) {
+        return userMapper.deleteUserRoleRelationship(userid, data);
+    }
 
 
 }

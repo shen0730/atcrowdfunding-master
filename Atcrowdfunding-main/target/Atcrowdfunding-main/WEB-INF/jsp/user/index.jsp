@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: xw
-  Date: 2019/12/23
-  Time: 13:53
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -163,40 +156,6 @@
 <script type="text/javascript" src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script type="text/javascript" src="${APP_PATH}/jquery/pagination/jquery.pagination.js"></script>
 <script type="text/javascript">
-    <%--function to_page(pn){--%>
-    <%--    $ajax({--%>
-    <%--        url:"${APP_PATH/index}",--%>
-    <%--        data:"pn=" + pn,--%>
-    <%--        type:"GET",--%>
-    <%--        success:function (result) {--%>
-    <%--            //解析并显示数据--%>
-    <%--            build_crowd_table(result);--%>
-    <%--        }--%>
-    <%--    });--%>
-    <%--}--%>
-    <%--function build_crowd_table(result) {--%>
-    <%--    //清空table表格--%>
-    <%--    var crowd = result.extend.pageno.list;--%>
-    <%--    $.each(crowd,function (index,item) {--%>
-    <%--        var countTd = $("<td></td>").append(item.count);--%>
-    <%--        var checkboxTd = $("<td><input type='checkbox' class='check_item'></td>");--%>
-    <%--        var loginacctTd = $("<td></td>").append(item.loginacct);--%>
-    <%--        var username = $("<td></td>").append(item.username);--%>
-    <%--        var email = $("<td></td>").append(item.email);--%>
-    <%--        var editBtn = $("<button></button>").addClass("btn btn-success btn-xs").append($("<span><span>").addClass("glyphicon glyphicon-check")).append("编辑");--%>
-    <%--        var delBtn = $("<button></button>").addClass("btn btn-success btn-xs").append($("<span><span>").addClass("glyphicon glyphicon-check")).append("删除");--%>
-
-    <%--        var btnTd = $("<td></td>").append(editBtn).append(" ").append(delBtn);--%>
-    <%--        $("<tr></tr>")--%>
-    <%--            .append(countTd)--%>
-    <%--            .append(checkboxTd)--%>
-    <%--            .append(loginacctTd)--%>
-    <%--            .append(username)--%>
-    <%--            .append(email)--%>
-    <%--            .append(btnTd)--%>
-    <%--            .appendTo("#crowd_table tbody");--%>
-    <%--    });--%>
-    <%--}--%>
 
     //分页查询所有用户
     $(function () {
@@ -211,7 +170,10 @@
             }
         });
         queryPageUser(1);
+        showMenu();
     });
+
+
     $("tbody .btn-success").click(function(){
         window.location.href = "assignRole.html";
     });
@@ -253,7 +215,7 @@
                         content+='<td>'+n.username+'</td>';
                         content+='<td>'+n.email+'</td>';
                         content+='<td>';
-                        content+='<button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
+                        content+='<button type="button" onclick="window.location.href=\'${APP_PATH}/user/assignRole.htm?id='+n.id+'\'" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                         content+='<button type="button" onclick="window.location.href=\'${APP_PATH}/user/toUpdate.htm?id='+n.id+'\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                         content+='<button type="button" onclick="deleteUser('+n.id+','+n.loginacct+')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         content+='</td>';
@@ -361,7 +323,7 @@
             layer.msg("请选择要删除的用户！", {time:1000,icon:5,shift:6});
             return false;
         }
-        var idStr ="11111";
+        var idStr ="";
         $.each(selectCheckbox,function (i,n) {
             if(i!=0){
                 idStr += "&";
@@ -395,6 +357,7 @@
     });
 
 </script>
+<script type="text/javascript" src="${APP_PATH}/script/menu.js"></script>
 </body>
 </html>
 

@@ -130,10 +130,10 @@
         var selectedOptions = $("#leftRoleList option:selected");
 
         var jsonObj = {
-            userid : ${param.id}
+            userid : "${param.id}"
         };
 
-        $.each(selectedOptions, function (i, n) {
+        $.each(selectedOptions, function (i,n) {
             jsonObj["ids[" + i + "]"] = this.value;
         });
         var index = -1;
@@ -142,7 +142,7 @@
             data : jsonObj,
             url : "${APP_PATH}/user/doAssignRole.do",
             beforeSend : function () {
-                layer.load(2, {time: 1*1000});
+                index = layer.load(2, {time: 1*1000});
                 return true;
             },
             success : function (result) {
@@ -151,11 +151,11 @@
                     $("#rightRoleList").append(selectedOptions.clone());
                     selectedOptions.remove();
                 }else {
-                    layer.msg("操作失败！", {time: 1000, icon: 5, shift: 6});
+                    layer.msg(result.message, {time: 1000, icon: 5, shift: 6});
                 }
             },
             error : function () {
-
+                layer.msg("操作失败！",{time:1000,icon:5,shift:6})
             }
         });
     });
@@ -163,12 +163,10 @@
     //取消角色
     $("#rightToLeftBtn").click(function () {
         var selectedOptions = $("#rightRoleList option:selected");
-
         var jsonObj = {
-            userid : ${param.id}
+            userid : "${param.id}"
         };
-
-        $.each(selectedOptions, function (i, n) {
+        $.each(selectedOptions,function (i,n) {
             jsonObj["ids[" + i + "]"] = this.value;
         });
         var index = -1;
@@ -177,20 +175,20 @@
             data : jsonObj,
             url : "${APP_PATH}/user/doUnAssignRole.do",
             beforeSend : function () {
-                layer.load(2, {time: 1*1000});
+                index = layer.load(2,{time:1*1000});
                 return true;
             },
             success : function (result) {
                 layer.close(index);
-                if (result.success){
+                if(result.success){
                     $("#leftRoleList").append(selectedOptions.clone());
                     selectedOptions.remove();
-                }else {
-                    layer.msg("操作失败！", {time: 1000, icon: 5, shift: 6});
+                }else{
+                    layer.msg(result.message,{time: 1000,icon: 5,shift: 6});
                 }
             },
             error : function () {
-
+                layer.msg("操作失败！",{time: 1000,icon: 5,shift: 6});
             }
         });
     });

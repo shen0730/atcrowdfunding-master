@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: xw
-  Date: 2019/12/24
-  Time: 21:30
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -33,13 +26,13 @@
         <a href="main.html"><i class="glyphicon glyphicon-dashboard"></i> 控制面板</a>
     </li>
     <li class="list-group-item tree-closed">
-        <span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge" style="float:right">3</span></span>
+        <span><i class="glyphicon glyphicon glyphicon-tasks"></i> 权限管理 <span class="badge" style="float:right"></span></span>
         <ul style="margin-top:10px;display: none">
             <li style="height:30px;">
                 <a href="${APP_PATH}/user/index.do"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
             </li>
             <li style="height:30px;">
-                <a href="${APP_PATH}/role/toIndex.do"><i class="glyphicon glyphicon-king"></i> 角色维护</a>
+                <a href="${APP_PATH}/role/toIndex.htm"><i class="glyphicon glyphicon-king"></i> 角色维护</a>
             </li>
             <li style="height:30px;">
                 <a href="${APP_PATH}/permission/index.htm"><i class="glyphicon glyphicon-lock"></i> 许可维护</a>
@@ -47,7 +40,7 @@
         </ul>
     </li>
     <li class="list-group-item tree-closed">
-        <span><i class="glyphicon glyphicon-ok"></i> 业务审核 <span class="badge" style="float:right">3</span></span>
+        <span><i class="glyphicon glyphicon-ok"></i> 业务审核 <span class="badge" style="float:right"></span></span>
         <ul style="margin-top:10px;display:none;">
             <li style="height:30px;">
                 <a href="auth_cert.html"><i class="glyphicon glyphicon-check"></i> 实名认证审核</a>
