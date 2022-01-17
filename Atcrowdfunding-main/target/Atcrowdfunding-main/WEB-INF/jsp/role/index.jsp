@@ -110,7 +110,7 @@
             }
         });
         queryPageUser(1);
-        showMenu();
+        //showMenu();
     });
 
     $("tbody .btn-success").click(function(){

@@ -36,6 +36,11 @@ public class UserContreller {
         return "user/add";
     }
 
+    @RequestMapping("/toIndex")
+    public String doIndex(){
+        return "role/index";
+    }
+
     //显示分配页面数据
     @RequestMapping("assignRole")
     public String assignRole(Integer id,Map map){
@@ -217,6 +222,8 @@ public class UserContreller {
 
         return result; //将对象序列化为JSON字符串,以流的形式返回.
     }
+
+
 
     //异步请求
 //    @ResponseBody

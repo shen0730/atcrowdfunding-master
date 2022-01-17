@@ -64,6 +64,7 @@
 <script src="${APP_PATH}/ztree/jquery.ztree.all-3.5.min.js"></script>
 <script type="text/javascript" src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script type="text/javascript">
+
     $(function () {
         $(".list-group-item").click(function(){
             if ( $(this).find("ul") ) {
@@ -78,6 +79,20 @@
         showMenu();
         loadData();
     });
+    function showMenu() {
+        var href = window.location.href;
+        var host = window.location.host ;
+        var index = href.indexOf(host);
+        var path = href.substring(index + host.length);
+        var contextPath = "${APP_PATH}";
+        var pathAddress = path.substring(contextPath.length);
+
+        var alink = $(".list-group a[href*='"+pathAddress+"']");
+        alink.css("color","red");
+
+        alink.parent().parent().parent().removeClass("tree-closed");
+        alink.parent().parent().show();
+    }
 
     var setting = {
         view : {
@@ -115,7 +130,7 @@
         }
     };
 
-    /*var zNodes =[
+    var zNodes =[
         { name:"父节点1 - 展开", open:true,
             children: [
                 { name:"父节点11 - 折叠",
@@ -160,13 +175,13 @@
             ]},
         { name:"父节点3 - 没有子节点", isParent:true}
 
-    ];*/
+    ];
     function loadData(){
         $.ajax({
             url : "${APP_PATH}/permission/loadData.do",
             type : "POST",
             success : function (result) {
-                if (result.success){
+                if (result.success) {
                     var zNodes = result.data;
                     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
                 }else {
@@ -203,7 +218,7 @@
         $.fn.zTree.init($("#treeDemo"), setting, zNodes);
     });*/
 </script>
-<script type="text/javascript" src="${APP_PATH}/script/menu.js"></script>
+<%--<script type="text/javascript" src="${APP_PATH}/script/menu.js"></script>--%>
 </body>
 </html>
 

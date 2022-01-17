@@ -7,6 +7,16 @@ public class AjaxResult {
     private String message ;
     private Page page;
 
+    private Object date;
+
+    public Object getDate() {
+        return date;
+    }
+
+    public void setDate(Object date) {
+        this.date = date;
+    }
+
     public boolean isSuccess() {
         return success;
     }
