@@ -1,20 +1,19 @@
 package com.sht.crowd.util;
 
-
 public class AjaxResult {
 
     private boolean success ;
     private String message ;
     private Page page;
 
-    private Object date;
+    private Object data;
 
-    public Object getDate() {
-        return date;
+    public Object getData() {
+        return data;
     }
 
-    public void setDate(Object date) {
-        this.date = date;
+    public void setData(Object data) {
+        this.data = data;
     }
 
     public boolean isSuccess() {
@@ -40,4 +39,5 @@ public class AjaxResult {
     public void setPage(Page page) {
         this.page = page;
     }
-}
+
+    }
