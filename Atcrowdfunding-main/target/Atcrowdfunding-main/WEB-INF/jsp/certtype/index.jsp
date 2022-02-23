@@ -101,7 +101,7 @@
                 }
             }
         });
-        showMenu();
+        //showMenu();
 
         <c:forEach items="${certAccttypeList}" var="cert">
             $(":checkbox[certid='${cert.certid}'][accttype='${cert.accttype}']")[0].checked = true;

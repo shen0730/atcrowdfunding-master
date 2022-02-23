@@ -76,6 +76,7 @@
             }
         });
         loadData();
+        showMenu();
     });
 
     var setting = {
@@ -175,6 +176,7 @@
         });
     }
 
+    //删除许可树
     function deletePermission(id, name) {
 
         layer.confirm('确认要删除[' + name + ']许可吗?', {icon: 3, title:'提示'}, function(cihdex){

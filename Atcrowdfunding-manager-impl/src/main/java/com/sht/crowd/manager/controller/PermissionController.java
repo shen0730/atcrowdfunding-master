@@ -33,6 +33,36 @@ public class PermissionController {
         return "permission/update";
     }
 
+    //修改许可树
+    @ResponseBody
+    @RequestMapping("/doUpdate")
+    public Object doUpdate(Permission permission){
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = permissionService.updatePermission(permission);
+            result.setSuccess(count == 1);
+        }catch (Exception e){
+            result.setSuccess(false);
+            result.setMessage("修改许可树失败！");
+        }
+        return result;
+    }
+
+    //删除许可树
+    @ResponseBody
+    @RequestMapping("/deletePermission")
+    public Object deletePermission(Integer id){
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = permissionService.deletePermission(id);
+            result.setSuccess(count == 1);
+        }catch (Exception e){
+            result.setSuccess(false);
+            result.setMessage("删除许可树失败！");
+        }
+        return result;
+    }
+
     //Demo5 - 用Map集合来查找父,来组合父子关系.减少循环的次数 ,提高性能.
     @ResponseBody
     @RequestMapping("/loadData")

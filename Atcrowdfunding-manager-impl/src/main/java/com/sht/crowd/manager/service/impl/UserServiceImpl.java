@@ -95,6 +95,7 @@ public class UserServiceImpl<Criteria> implements UserService {
         return userMapper.deleteByPrimaryKey(id);
     }
 
+    //批量删除
     @Override
     public int deleteBatchUser(Integer[] ids) {
         int totalCount = 0;

@@ -59,7 +59,7 @@
                         <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
                     <button type="button" class="btn btn-danger" id="deleteBatchBtn" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='form.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/role/add.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
@@ -110,7 +110,7 @@
             }
         });
         queryPageUser(1);
-        //showMenu();
+        showMenu();
     });
 
     $("tbody .btn-success").click(function(){
@@ -194,14 +194,15 @@
         });
     }
 
+    //条件查询
     $("#queryBtn").click(function () {
         var queryText = $("#queryText").val();
         jsonObj.queryText = queryText;
         queryPageUser(1);
     });
 
+    //删除
     function deleteRole(id, name) {
-
         layer.confirm('确认要删除[' + name + ']用户吗?', {icon: 3, title:'提示'}, function(cihdex){
             layer.close(cihdex);
             $.ajax({

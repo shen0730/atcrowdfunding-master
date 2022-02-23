@@ -114,7 +114,7 @@
             }
         });
         queryPageUser(0);
-        showMenu();
+        //showMenu();
     });
 
     function pageChange(pageno) {

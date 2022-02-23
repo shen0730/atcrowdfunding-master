@@ -14,4 +14,8 @@ public interface PermissionService {
     int savePermission(Permission permission);
 
     Permission getPermissionById(Integer id);
+
+    int updatePermission(Permission permission);
+
+    int deletePermission(Integer id);
 }

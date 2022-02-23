@@ -167,7 +167,7 @@
                 }
             }
         });
-        showMenu();
+        //showMenu();
     });
 </script>
 <script type="text/javascript" src="${APP_PATH}/script/menu.js"></script>

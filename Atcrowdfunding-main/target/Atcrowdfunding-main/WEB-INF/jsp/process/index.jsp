@@ -116,7 +116,7 @@
             }
         });
         queryPageUser(0);
-        showMenu();
+        //showMenu();
     });
 
     var jsonObj = {
