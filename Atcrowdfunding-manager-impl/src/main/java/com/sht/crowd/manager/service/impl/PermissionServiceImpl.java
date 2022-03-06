@@ -15,6 +15,11 @@ public class PermissionServiceImpl implements PermissionService {
     private PermissionMapper permissionMapper;
 
     @Override
+    public List<Integer> queryPermissionidsByRoleid(Integer roleId) {
+        return permissionMapper.queryPermissionidsByRoleid(roleId);
+    }
+
+    @Override
     public Permission getRootPermission() {
 
         return permissionMapper.getRootPermission();

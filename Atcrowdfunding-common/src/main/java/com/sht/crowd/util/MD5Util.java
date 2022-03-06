@@ -54,7 +54,7 @@ public class MD5Util {
 	}
 
 	public static void main(String args[]) {
-		String s = new String("111");
+		String s = new String("123");
 		System.out.println(digest(s));
 	}
 

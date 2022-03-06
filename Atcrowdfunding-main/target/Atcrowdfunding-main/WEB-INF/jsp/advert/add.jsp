@@ -57,7 +57,7 @@
                             <input type="text" class="form-control" id="name" name="name" placeholder="请输入广告名称">
                         </div>
                         <div class="form-group">
-                            <label for="url"><广告地址></广告地址></label>
+                            <label for="url">广告地址</label>
                             <input type="text" class="form-control" id="url" name="url" placeholder="请输入广告地址">
                         </div>
                         <div class="form-group">

@@ -1,5 +1,6 @@
 package com.sht.crowd.manager.service.impl;
 
+import com.sht.crowd.bean.Permission;
 import com.sht.crowd.bean.Role;
 import com.sht.crowd.bean.User;
 import com.sht.crowd.exception.LoginFailException;
@@ -56,12 +57,6 @@ public class UserServiceImpl<Criteria> implements UserService {
         user.setUserpswd(MD5Util.digest(Const.PASSWORD));
         return userMapper.insert(user);
     }
-
-    @Override
-    public User selectUserByNickName(String loginacct) throws Exception {
-        return userMapper.selectLoginacct(loginacct);
-    }
-
 
     //判断账号是否存在
     @Override
@@ -129,6 +124,11 @@ public class UserServiceImpl<Criteria> implements UserService {
     @Override
     public int deleteUserRoleRelationship(Integer userid, Data data) {
         return userMapper.deleteUserRoleRelationship(userid, data);
+    }
+
+    @Override
+    public List<Permission> queryPermissionByUserid(Integer id) {
+        return userMapper.queryPermissionByUserid(id);
     }
 
 

@@ -4,7 +4,7 @@ function showMenu(){
     var index = href.indexOf(host);
     var path = href.substring(index + host.length);
 
-    var contextPath = "${APP_PATH}";
+    var contextPath = "";
     var pathAddress = path.substring(contextPath.length);
 
     var alink = $(".list-group a[href*='" + pathAddress + "']");

@@ -83,7 +83,7 @@
                                 <td colspan="6" align="center">
                                     <%--<ul class="pagination">
                                     </ul>--%>
-                                        <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
+                                    <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
                                 </td>
                             </tr>
 
@@ -114,7 +114,7 @@
             }
         });
         queryPageUser(0);
-        //showMenu();
+        showMenu();
     });
 
     function pageChange(pageno) {

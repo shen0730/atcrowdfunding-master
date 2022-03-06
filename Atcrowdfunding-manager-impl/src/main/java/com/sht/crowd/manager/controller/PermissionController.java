@@ -1,6 +1,7 @@
 package com.sht.crowd.manager.controller;
 
 import com.sht.crowd.bean.Permission;
+import com.sht.crowd.controller.BaseController;
 import com.sht.crowd.manager.service.PermissionService;
 import com.sht.crowd.util.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/permission")
-public class PermissionController {
+public class PermissionController extends BaseController {
 
     @Autowired
     private PermissionService permissionService;
@@ -52,15 +53,15 @@ public class PermissionController {
     @ResponseBody
     @RequestMapping("/deletePermission")
     public Object deletePermission(Integer id){
-        AjaxResult result = new AjaxResult();
+        start();
         try {
             int count = permissionService.deletePermission(id);
-            result.setSuccess(count == 1);
+            success(count == 1);
         }catch (Exception e){
-            result.setSuccess(false);
-            result.setMessage("删除许可树失败！");
+            success(false);
+            error("删除许可树失败！");
         }
-        return result;
+        return end();
     }
 
     //Demo5 - 用Map集合来查找父,来组合父子关系.减少循环的次数 ,提高性能.

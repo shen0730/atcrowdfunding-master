@@ -5,6 +5,9 @@ import com.sht.crowd.bean.Permission;
 import java.util.List;
 
 public interface PermissionService {
+
+    List<Integer> queryPermissionidsByRoleid(Integer roleId);
+
     Permission getRootPermission();
 
     List<Permission> getChildrenPerminssionByPid(Integer id);

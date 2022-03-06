@@ -1,5 +1,6 @@
 package com.sht.crowd.manager.service;
 
+import com.sht.crowd.bean.Permission;
 import com.sht.crowd.bean.Role;
 import com.sht.crowd.bean.User;
 import com.sht.crowd.util.Page;
@@ -12,15 +13,9 @@ public interface UserService {
 
     User queryUserlogin(Map<String, Object> paramMap);
 
-    //@Deprecated
-    //Page queryPage(Integer pageno, Integer pagesize);
-
-
     Page queryPage(Map<String, Object> paramMap);
 
     int save(User user);
-
-    User selectUserByNickName(String loginacct) throws Exception;
 
     boolean selectLoginacct(String loginacct);
 
@@ -39,4 +34,6 @@ public interface UserService {
     int saveUserRoleRelationship(Integer userid, Data data);
 
     int deleteUserRoleRelationship(Integer userid, Data data);
+
+    List<Permission> queryPermissionByUserid(Integer id);
 }

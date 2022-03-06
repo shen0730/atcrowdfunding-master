@@ -112,6 +112,11 @@
         queryPageUser(1);
         showMenu();
     });
+    function showMenu(){
+        var href = window.location.href ;
+        var host = window.location.host;
+        alert(host);
+    }
 
     $("tbody .btn-success").click(function(){
         window.location.href = "assignPermission.html";
@@ -148,11 +153,10 @@
                     $.each(data, function (i, n) {
                         content += '<tr>';
                         content += '    <td>' + (i + 1) + '</td>';
-                        content += '    <td><input type="checkbox" id="' + n.id + '"></td>';
+                        content += '    <td><input class="check_item" type="checkbox" id="' + n.id + '"></td>';
                         content += '    <td>' + n.name + '</td>';
                         content += '    <td>';
                         content += '        <button type="button" onclick="window.location.href=\'${APP_PATH}/role/assignPermission.htm?roleid=' + n.id + '\'" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-                        content += '        <button type="button" onclick="window.location.href=\'${APP_PATH}/role/toUpdate.htm?id=' + n.id + '\'" class="btn btn-primary btn-xs"><i class=" glyphicon glyphicon-pencil"></i></button>';
                         content += '        <button type="button" onclick="deleteRole(' + n.id + ',\'' + n.name + '\')" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
                         content += '    </td>';
                         content += '</tr>';
@@ -230,11 +234,23 @@
         });
     }
 
-    $("#allCheckbox").click(function () {
-        var checkedStatus = this.checked;
-        $("tbody tr td input[type='checkbox']").prop("checked", checkedStatus);
+    //复选框全选全不选
+    //check_item
+    $(document).on("click", ".check_item", function(){
+        //判断当前选择中的元素是否10个
+        var flag = $(".check_item:checked").length == $(".check_item").length;
+        $("#allCheckbox").prop("checked", flag);
     });
 
+    $("#allCheckbox").click(function () {
+        var checkedStatus = this.checked;
+        var tbodyCheckbox = $("tbody tr td input[type='checkbox']");
+        $.each(tbodyCheckbox,function (i,n) {
+            n.checked = checkedStatus;
+        });
+    });
+
+    //批量删除
     $("#deleteBatchBtn").click(function () {
         var selectCheckbox = $("tbody tr td input:checked");
 
